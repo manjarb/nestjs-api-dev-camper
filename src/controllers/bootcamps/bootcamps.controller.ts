@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Bootcamps')
+@ApiTags('bootcamps')
 @Controller('bootcamps')
 export class BootcampsController {
   @Get()
