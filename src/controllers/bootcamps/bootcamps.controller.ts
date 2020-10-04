@@ -6,35 +6,46 @@ import {
   Param,
   Patch,
   Post,
+  UseFilters,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('bootcamps')
-@Controller('bootcamps')
-export class BootcampsController {
-  @Get()
-  findAll(): any {
-    return {
-      test: 'test',
-    };
-  }
+import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
+import { ValidationErrorFilter } from '@filters/validation-error/validation-error.filter';
+import { BootcampsService } from '@services/bootcamps/bootcamps.service';
+import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 
-  @Get(':id')
-  findOne(
-    @Param('id')
-    id: string,
-  ): void {}
+@ApiTags('bootcamps')
+@Controller('api/v1/bootcamps')
+@UseFilters(ValidationErrorFilter)
+export class BootcampsController {
+  constructor(private bootcampsService: BootcampsService) {}
+
+  // @Get()
+  // findAll(): any {
+  //   return {
+  //     test: 'test',
+  //   };
+  // }
+
+  // @Get(':id')
+  // findOne(
+  //   @Param('id')
+  //   id: string,
+  // ): void {}
 
   @Post()
-  create(@Body() body): void {}
+  create(@Body() body: CreateBootcampDto): Promise<Bootcamp> {
+    return this.bootcampsService.create(body);
+  }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    // Validation for only body of this route
-    // @Body(ValidationPipe) body: UpdateCoffeeDto,
-  ): void {}
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   // Validation for only body of this route
+  //   // @Body(ValidationPipe) body: UpdateCoffeeDto,
+  // ): void {}
 
-  @Delete(':id')
-  remove(@Param('id') id: string): void {}
+  // @Delete(':id')
+  // remove(@Param('id') id: string): void {}
 }

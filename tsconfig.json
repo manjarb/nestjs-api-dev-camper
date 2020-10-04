@@ -10,6 +10,13 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@controllers/*": ["./src/controllers/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@filters/*": ["./src/filters/*"],
+      "@services/*": ["./src/services/*"],
+      "@dto/*": ["./src/dto/*"],
+    }
   }
 }
