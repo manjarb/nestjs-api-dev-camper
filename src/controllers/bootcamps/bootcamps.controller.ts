@@ -14,10 +14,11 @@ import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
 import { ValidationErrorFilter } from '@filters/validation-error/validation-error.filter';
 import { BootcampsService } from '@services/bootcamps/bootcamps.service';
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
+import { MongoErrorFilter } from '@filters/mongo-error/mongo-error.filter';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
-@UseFilters(ValidationErrorFilter)
+@UseFilters(ValidationErrorFilter, MongoErrorFilter)
 export class BootcampsController {
   constructor(private bootcampsService: BootcampsService) {}
 
