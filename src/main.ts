@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { FormatResponseInterceptor } from './interceptors/format-response/format-response.interceptor';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +26,9 @@ async function bootstrap(): Promise<void> {
 
   // Catch Http error ex. find non-exist :id -1
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Add interceptor to modify response
+  app.useGlobalInterceptors(new FormatResponseInterceptor());
 
   // Setting up Swagger document
   const options = new DocumentBuilder()
