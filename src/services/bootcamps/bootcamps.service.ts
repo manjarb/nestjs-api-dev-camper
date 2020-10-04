@@ -1,8 +1,10 @@
-import { PaginationQueryDto } from './../../dto/pagination-query.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Bootcamp } from '../../models/bootcamp/bootcamp.model';
+
+import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
+import { PaginationQueryDto } from '@dto/pagination-query.dto';
+import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
 
 @Injectable()
 export class BootcampsService {
@@ -17,5 +19,10 @@ export class BootcampsService {
       .skip(offset)
       .limit(limit)
       .exec();
+  }
+
+  create(createBootcamp: CreateBootcampDto): Promise<Bootcamp> {
+    const bootcamp = new this.bootcampModel(createBootcamp);
+    return bootcamp.save();
   }
 }
