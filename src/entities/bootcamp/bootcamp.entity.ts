@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import slugify from 'slugify';
 
 export enum Careers {
   Web = 'Web Development',
@@ -137,3 +138,8 @@ export class Bootcamp extends Document {
 }
 
 export const BootcampSchema = SchemaFactory.createForClass(Bootcamp);
+
+BootcampSchema.pre<Bootcamp>('save', function(this, next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
