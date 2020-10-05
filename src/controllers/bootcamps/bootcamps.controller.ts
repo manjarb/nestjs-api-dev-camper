@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseFilters,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,25 +16,27 @@ import { ValidationErrorFilter } from '@filters/validation-error/validation-erro
 import { BootcampsService } from '@services/bootcamps/bootcamps.service';
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { MongoErrorFilter } from '@filters/mongo-error/mongo-error.filter';
+import { PaginationQueryDto } from '@dto/pagination-query.dto';
+import { CastErrorFilter } from '@filters/cast-error/cast-error.filter';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
-@UseFilters(ValidationErrorFilter, MongoErrorFilter)
+@UseFilters(ValidationErrorFilter, CastErrorFilter, MongoErrorFilter)
 export class BootcampsController {
   constructor(private bootcampsService: BootcampsService) {}
 
-  // @Get()
-  // findAll(): any {
-  //   return {
-  //     test: 'test',
-  //   };
-  // }
+  @Get()
+  findAll(@Query() paginationQuery: PaginationQueryDto): any {
+    return this.bootcampsService.findAll(paginationQuery);
+  }
 
-  // @Get(':id')
-  // findOne(
-  //   @Param('id')
-  //   id: string,
-  // ): void {}
+  @Get(':id')
+  findOne(
+    @Param('id')
+    id: string,
+  ): Promise<Bootcamp> {
+    return this.bootcampsService.findOne(id);
+  }
 
   @Post()
   create(@Body() body: CreateBootcampDto): Promise<Bootcamp> {
