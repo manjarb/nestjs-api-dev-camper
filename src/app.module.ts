@@ -1,3 +1,4 @@
+import { AdvancedQueryService } from './services/advanced-query/advanced-query.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -23,6 +24,6 @@ const mongoUrl =
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AdvancedQueryService, AppService],
 })
 export class AppModule {}

@@ -19,6 +19,7 @@ import { MongoErrorFilter } from '@filters/mongo-error/mongo-error.filter';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { CastErrorFilter } from '@filters/cast-error/cast-error.filter';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
+import { IAdvancedData } from '@services/advanced-query/advanced-query.service';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
@@ -27,7 +28,9 @@ export class BootcampsController {
   constructor(private bootcampsService: BootcampsService) {}
 
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto): any {
+  findAll(
+    @Query() paginationQuery: PaginationQueryDto,
+  ): Promise<IAdvancedData<Bootcamp>> {
     return this.bootcampsService.findAll(paginationQuery);
   }
 
