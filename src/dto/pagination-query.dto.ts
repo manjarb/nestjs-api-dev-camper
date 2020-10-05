@@ -1,10 +1,35 @@
-import { IsOptional, IsPositive } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
-export class PaginationQueryDto {
+class PaginationDto {
   @IsOptional()
-  @IsPositive()
-  limit: number;
+  limit: string;
 
   @IsOptional()
-  offset: number;
+  page: string;
+
+  // Sort should be like 'name,createdAt'
+  @IsOptional()
+  sort: string;
+
+  // Select fields should be like 'name,createdAt'
+  @IsOptional()
+  select: string;
+
+  @IsOptional()
+  gt: string;
+
+  @IsOptional()
+  gte: string;
+
+  @IsOptional()
+  lt: string;
+
+  @IsOptional()
+  lte: string;
+
+  @IsOptional()
+  in: string;
 }
+
+export class PaginationQueryDto extends PartialType(PaginationDto) {}

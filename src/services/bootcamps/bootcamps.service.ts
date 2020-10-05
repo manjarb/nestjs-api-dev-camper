@@ -6,20 +6,25 @@ import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
+import {
+  AdvancedQueryService,
+  IAdvancedData,
+} from '@services/advanced-query/advanced-query.service';
 
 @Injectable()
 export class BootcampsService {
   constructor(
     @InjectModel(Bootcamp.name) private readonly bootcampModel: Model<Bootcamp>,
+    private advancedQueryService: AdvancedQueryService,
   ) {}
 
-  findAll(paginationQuery: PaginationQueryDto): Promise<Bootcamp[]> {
-    const { limit, offset } = paginationQuery;
-    return this.bootcampModel
-      .find()
-      .skip(offset)
-      .limit(limit)
-      .exec();
+  findAll(
+    paginationQuery: PaginationQueryDto,
+  ): Promise<IAdvancedData<Bootcamp>> {
+    return this.advancedQueryService.getAdvancedQuery(
+      paginationQuery,
+      this.bootcampModel,
+    );
   }
 
   async findOne(id: string): Promise<Bootcamp> {

@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BootcampsService } from '@services/bootcamps/bootcamps.service';
 import { Bootcamp, BootcampSchema } from '@entities/bootcamp/bootcamp.entity';
 import { BootcampsController } from '@controllers/bootcamps/bootcamps.controller';
+import { AdvancedQueryService } from '@services/advanced-query/advanced-query.service';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { BootcampsController } from '@controllers/bootcamps/bootcamps.controller
     ConfigModule,
   ],
   controllers: [BootcampsController],
-  providers: [BootcampsService],
+  providers: [BootcampsService, AdvancedQueryService],
 })
 export class BootcampsModule {}
