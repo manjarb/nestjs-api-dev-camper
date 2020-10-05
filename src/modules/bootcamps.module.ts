@@ -6,6 +6,7 @@ import { BootcampsService } from '@services/bootcamps/bootcamps.service';
 import { Bootcamp, BootcampSchema } from '@entities/bootcamp/bootcamp.entity';
 import { BootcampsController } from '@controllers/bootcamps/bootcamps.controller';
 import { AdvancedQueryService } from '@services/advanced-query/advanced-query.service';
+import { GeocoderService } from 'src/utils/geocoder.util';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { AdvancedQueryService } from '@services/advanced-query/advanced-query.se
     ConfigModule,
   ],
   controllers: [BootcampsController],
-  providers: [BootcampsService, AdvancedQueryService],
+  providers: [BootcampsService, AdvancedQueryService, GeocoderService],
 })
 export class BootcampsModule {}

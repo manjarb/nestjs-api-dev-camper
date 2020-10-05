@@ -99,10 +99,6 @@ export class AdvancedQueryService {
     // Pagination result
     const pagination: IPagination = {};
 
-    console.log(page, ' :page');
-    console.log(endIndex, ' :endIndex');
-    console.log(total, ' :total');
-    console.log(startIndex, ' :startIndex');
     if (endIndex < total) {
       pagination.next = {
         page: page + 1,

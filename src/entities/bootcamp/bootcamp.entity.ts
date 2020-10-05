@@ -1,6 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import slugify from 'slugify';
+import { GeocoderService } from 'src/utils/geocoder.util';
 
 export enum Careers {
   Web = 'Web Development',
@@ -9,6 +10,17 @@ export enum Careers {
   Data = 'Data Science',
   Business = 'Business',
   Other = 'Other',
+}
+
+export interface ILocation {
+  type: 'Point';
+  coordinates: number[];
+  formattedAddress: string;
+  street: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
 }
 
 // This file have to be .entity.ts for swagger to generate correct response
@@ -80,7 +92,7 @@ export class Bootcamp extends Document {
     zipcode: String,
     country: String,
   })
-  location: string;
+  location: ILocation;
 
   @Prop({
     // Array of strings
@@ -141,5 +153,24 @@ export const BootcampSchema = SchemaFactory.createForClass(Bootcamp);
 
 BootcampSchema.pre<Bootcamp>('save', function(this, next) {
   this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+// Geocode & create location field
+BootcampSchema.pre<Bootcamp>('save', async function(next) {
+  const loc = await GeocoderService.geocoder.geocode(this.address);
+  this.location = {
+    type: 'Point',
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    formattedAddress: loc[0].formattedAddress,
+    street: loc[0].streetName,
+    city: loc[0].city,
+    state: loc[0].stateCode,
+    zipcode: loc[0].zipcode,
+    country: loc[0].countryCode,
+  };
+
+  // Do not save address in DB
+  this.address = undefined;
   next();
 });
