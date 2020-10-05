@@ -16,7 +16,7 @@ async function bootstrap(): Promise<void> {
       forbidNonWhitelisted: true,
       // Enabling auto transform body type of payload
       // Might impact some performance
-      transform: true,
+      // transform: true,
       // To remove  @Type(() => Number) from PaginationQueryDto
       transformOptions: {
         enableImplicitConversion: true,
