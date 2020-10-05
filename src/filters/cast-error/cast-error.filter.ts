@@ -14,9 +14,9 @@ export class CastErrorFilter implements RpcExceptionFilter {
     const ctx = host.switchToHttp(),
       response = ctx.getResponse();
 
-    return response.status(HttpStatus.BAD_REQUEST).json({
+    return response.status(HttpStatus.NOT_FOUND).json({
       success: false,
-      statusCode: HttpStatus.BAD_REQUEST,
+      statusCode: HttpStatus.NOT_FOUND,
       createdBy: 'CastErrorFilter',
       reason: exception.reason + '',
       value: exception.value,
