@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
+import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
 
 @Injectable()
 export class BootcampsService {
@@ -22,7 +23,7 @@ export class BootcampsService {
   }
 
   async findOne(id: string): Promise<Bootcamp> {
-    const bootcamp = await this.bootcampModel.findOne({ _id: id }).exec();
+    const bootcamp = await this.bootcampModel.findOne({ _id: id });
     if (!bootcamp) {
       throw new NotFoundException(`Bootcamp #${id} not found`);
     }
@@ -32,5 +33,26 @@ export class BootcampsService {
   create(createBootcamp: CreateBootcampDto): Promise<Bootcamp> {
     const bootcamp = new this.bootcampModel(createBootcamp);
     return bootcamp.save();
+  }
+
+  async update(
+    id: string,
+    updateBootcampDto: UpdateBootcampDto,
+  ): Promise<Bootcamp> {
+    const existingCoffee = await this.bootcampModel.findByIdAndUpdate(
+      id,
+      updateBootcampDto,
+      { new: true },
+    );
+
+    if (!existingCoffee) {
+      throw new NotFoundException(`Coffee #${id} not found`);
+    }
+    return existingCoffee;
+  }
+
+  async remove(id: string): Promise<Bootcamp> {
+    const coffee = await this.findOne(id);
+    return coffee.deleteOne();
   }
 }

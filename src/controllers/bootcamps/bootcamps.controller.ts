@@ -18,6 +18,7 @@ import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { MongoErrorFilter } from '@filters/mongo-error/mongo-error.filter';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { CastErrorFilter } from '@filters/cast-error/cast-error.filter';
+import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
@@ -43,13 +44,16 @@ export class BootcampsController {
     return this.bootcampsService.create(body);
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   // Validation for only body of this route
-  //   // @Body(ValidationPipe) body: UpdateCoffeeDto,
-  // ): void {}
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() body: UpdateBootcampDto,
+  ): Promise<Bootcamp> {
+    return this.bootcampsService.update(id, body);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string): void {}
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<Bootcamp> {
+    return this.bootcampsService.remove(id);
+  }
 }
