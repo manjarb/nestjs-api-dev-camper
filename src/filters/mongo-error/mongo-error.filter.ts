@@ -16,6 +16,7 @@ export class MongoErrorFilter implements ExceptionFilter {
       success: false,
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       errorCode: exception.code,
+      createdBy: 'MongoErrorFilter',
       message: exception.message,
     });
   }
