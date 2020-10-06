@@ -1,8 +1,6 @@
-import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
-
-export const mockBootcamps: CreateBootcampDto[] = [
+export const mockBootcamps = [
   {
-    // _id: '5d713995b721c3bb38c1f5d0',
+    _id: '5d713995b721c3bb38c1f5d0',
     // user: '5d7a514b5d2c12c7449be045',
     name: 'Devworks Bootcamp',
     description:
@@ -18,7 +16,7 @@ export const mockBootcamps: CreateBootcampDto[] = [
     acceptGi: true,
   },
   {
-    // _id: '5d713a66ec8f2b88b8f830b8',
+    _id: '5d713a66ec8f2b88b8f830b8',
     // user: '5d7a514b5d2c12c7449be046',
     name: 'ModernTech Bootcamp',
     description:
@@ -34,7 +32,7 @@ export const mockBootcamps: CreateBootcampDto[] = [
     acceptGi: true,
   },
   {
-    // _id: '5d725a037b292f5f8ceff787',
+    _id: '5d725a037b292f5f8ceff787',
     // user: '5c8a1d5b0190b214360dc031',
     name: 'Codemasters',
     description:
@@ -50,7 +48,7 @@ export const mockBootcamps: CreateBootcampDto[] = [
     acceptGi: false,
   },
   {
-    // _id: '5d725a1b7b292f5f8ceff788',
+    _id: '5d725a1b7b292f5f8ceff788',
     // user: '5c8a1d5b0190b214360dc032',
     name: 'Devcentral Bootcamp',
     description:
