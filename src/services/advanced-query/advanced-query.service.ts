@@ -31,17 +31,25 @@ export interface IAdvancedData<T> {
   data: T[];
 }
 
+export interface IAdvancedRequestQuery extends PaginationQueryDto {
+  location?: {
+    $geoWithin: {
+      $centerSphere: [[number, number], number];
+    };
+  };
+}
+
 @Injectable()
 export class AdvancedQueryService {
   async getAdvancedQuery<T extends Document>(
-    paginationQuery: PaginationQueryDto,
+    advancedRequestQuery: IAdvancedRequestQuery,
     model: Model<T>,
     populate?: string,
   ): Promise<IAdvancedData<T>> {
     let query: DocumentQuery<T[], T>;
 
     // Copy req.query
-    const reqQuery = { ...paginationQuery };
+    const reqQuery = { ...advancedRequestQuery };
 
     // Fields to exclude
     const removeFields = [
@@ -67,22 +75,22 @@ export class AdvancedQueryService {
     query = model.find(JSON.parse(queryStr));
 
     // Select Fields
-    if (paginationQuery.select) {
-      const fields = paginationQuery.select.split(',').join(' ');
+    if (advancedRequestQuery.select) {
+      const fields = advancedRequestQuery.select.split(',').join(' ');
       query = query.select(fields);
     }
 
     // Sort
-    if (paginationQuery.sort) {
-      const sortBy = paginationQuery.sort.split(',').join(' ');
+    if (advancedRequestQuery.sort) {
+      const sortBy = advancedRequestQuery.sort.split(',').join(' ');
       query = query.sort(sortBy);
     } else {
       query = query.sort(`-${Fields.CreatedAt}`);
     }
 
     // Pagination
-    const page = parseInt(paginationQuery.page, 10) || Default.Page;
-    const limit = parseInt(paginationQuery.limit, 10) || Default.Limit;
+    const page = parseInt(advancedRequestQuery.page, 10) || Default.Page;
+    const limit = parseInt(advancedRequestQuery.limit, 10) || Default.Limit;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     const total = await model.countDocuments(JSON.parse(queryStr));

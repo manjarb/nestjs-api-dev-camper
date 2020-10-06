@@ -11,6 +11,8 @@ import {
   IAdvancedData,
 } from '@services/advanced-query/advanced-query.service';
 
+import { GeocoderService } from '@utils/geocoder.util';
+
 @Injectable()
 export class BootcampsService {
   constructor(
@@ -33,6 +35,30 @@ export class BootcampsService {
       throw new NotFoundException(`Bootcamp #${id} not found`);
     }
     return bootcamp;
+  }
+
+  async findInRadius(
+    zipcode: string,
+    distance: number,
+    paginationQuery: PaginationQueryDto,
+  ): Promise<IAdvancedData<Bootcamp>> {
+    // Get lat/lng from geocoder
+    const loc = await GeocoderService.geocoder.geocode(zipcode);
+    const lat = loc[0].latitude;
+    const lng = loc[0].longitude;
+
+    // Calc radius using radians
+    // Divide dist by radius of Earth
+    // Earth Radius = 3,963 mi / 6,378 km
+    const radius = distance / 3963;
+
+    return this.advancedQueryService.getAdvancedQuery(
+      {
+        ...paginationQuery,
+        location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+      },
+      this.bootcampModel,
+    );
   }
 
   create(createBootcamp: CreateBootcampDto): Promise<Bootcamp> {
