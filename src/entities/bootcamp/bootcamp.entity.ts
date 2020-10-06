@@ -1,7 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import slugify from 'slugify';
-import { GeocoderService } from 'src/utils/geocoder.util';
+
+import { GeocoderService } from '@utils/geocoder.util';
 
 export enum Careers {
   Web = 'Web Development',

@@ -17,6 +17,7 @@
       "@filters/*": ["./src/filters/*"],
       "@services/*": ["./src/services/*"],
       "@dto/*": ["./src/dto/*"],
+      "@utils/*": ["./src/utils/*"],
     }
   }
 }
