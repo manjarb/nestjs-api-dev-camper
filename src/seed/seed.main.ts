@@ -21,7 +21,16 @@ async function bootstrap(): Promise<void> {
           })
           .finally(() => appContext.close());
       } else if (process.argv[2] === '-d') {
-        // deleteData();
+        seeder
+          .delete()
+          .then(() => {
+            logger.debug('Delete complete!');
+          })
+          .catch(error => {
+            logger.error('Delete failed!');
+            throw error;
+          })
+          .finally(() => appContext.close());
       }
     })
     .catch(error => {
