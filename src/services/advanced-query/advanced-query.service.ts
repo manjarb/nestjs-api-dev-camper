@@ -1,4 +1,4 @@
-import { PaginationQueryDto } from '@dto/pagination-query.dto';
+import { AdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 import { Injectable } from '@nestjs/common';
 import { Model, Document, DocumentQuery } from 'mongoose';
 
@@ -31,18 +31,10 @@ export interface IAdvancedData<T> {
   data: T[];
 }
 
-export interface IAdvancedRequestQuery extends PaginationQueryDto {
-  location?: {
-    $geoWithin: {
-      $centerSphere: [[number, number], number];
-    };
-  };
-}
-
 @Injectable()
 export class AdvancedQueryService {
   async getAdvancedQuery<T extends Document>(
-    advancedRequestQuery: IAdvancedRequestQuery,
+    advancedRequestQuery: AdvancedRequestQueryDto,
     model: Model<T>,
     populate?: string,
   ): Promise<IAdvancedData<T>> {

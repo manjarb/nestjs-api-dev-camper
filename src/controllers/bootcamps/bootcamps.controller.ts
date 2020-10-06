@@ -20,6 +20,7 @@ import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { CastErrorFilter } from '@filters/cast-error/cast-error.filter';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
 import { IAdvancedData } from '@services/advanced-query/advanced-query.service';
+import { AdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
@@ -29,7 +30,7 @@ export class BootcampsController {
 
   @Get()
   findAll(
-    @Query() paginationQuery: PaginationQueryDto,
+    @Query() paginationQuery: AdvancedRequestQueryDto,
   ): Promise<IAdvancedData<Bootcamp>> {
     return this.bootcampsService.findAll(paginationQuery);
   }

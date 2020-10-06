@@ -12,6 +12,7 @@ import {
 } from '@services/advanced-query/advanced-query.service';
 
 import { GeocoderService } from '@utils/geocoder.util';
+import { AdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 
 @Injectable()
 export class BootcampsService {
@@ -21,7 +22,7 @@ export class BootcampsService {
   ) {}
 
   findAll(
-    paginationQuery: PaginationQueryDto,
+    paginationQuery: AdvancedRequestQueryDto,
   ): Promise<IAdvancedData<Bootcamp>> {
     return this.advancedQueryService.getAdvancedQuery(
       paginationQuery,
