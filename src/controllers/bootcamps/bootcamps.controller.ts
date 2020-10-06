@@ -42,6 +42,21 @@ export class BootcampsController {
     return this.bootcampsService.findOne(id);
   }
 
+  @Get('radius/:zipcode/:distance')
+  findInRadius(
+    @Param('zipcode')
+    zipcode: string,
+    @Param('distance')
+    distance: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ): Promise<IAdvancedData<Bootcamp>> {
+    return this.bootcampsService.findInRadius(
+      zipcode,
+      parseInt(distance, 10),
+      paginationQuery,
+    );
+  }
+
   @Post()
   create(@Body() body: CreateBootcampDto): Promise<Bootcamp> {
     return this.bootcampsService.create(body);
