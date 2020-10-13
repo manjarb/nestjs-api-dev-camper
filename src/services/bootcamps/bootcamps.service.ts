@@ -89,6 +89,6 @@ export class BootcampsService {
 
   async remove(id: string): Promise<Bootcamp> {
     const coffee = await this.findOne(id);
-    return coffee.deleteOne();
+    return coffee.remove();
   }
 }

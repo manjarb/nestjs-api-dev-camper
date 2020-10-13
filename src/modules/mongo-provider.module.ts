@@ -1,11 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import {
-  Bootcamp,
-  BootcampSchema,
-  BootcampFields,
-} from '@entities/bootcamp/bootcamp.entity';
+import { Bootcamp, BootcampSchema } from '@entities/bootcamp/bootcamp.entity';
 import { Course, CourseSchema } from '@entities/course/course.entity';
 
 @Module({
@@ -25,12 +21,7 @@ import { Course, CourseSchema } from '@entities/course/course.entity';
         name: Bootcamp.name,
         useFactory: (): any => {
           const schema = BootcampSchema;
-          BootcampSchema.virtual(BootcampFields.Courses, {
-            ref: 'Course',
-            localField: '_id',
-            foreignField: 'bootcamp',
-            justOne: false,
-          });
+          Bootcamp.bindVirtualField(schema);
           return schema;
         },
       },
