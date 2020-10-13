@@ -24,4 +24,7 @@ export class BootcampAdvancedRequestQueryDto extends PaginationQueryDto {
   };
 }
 
-export class CourseAdvancedRequestQueryDto extends PaginationQueryDto {}
+export class CourseAdvancedRequestQueryDto extends PaginationQueryDto {
+  @IsOptional()
+  bootcamp?: string;
+}
