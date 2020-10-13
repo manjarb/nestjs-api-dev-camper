@@ -13,6 +13,12 @@ export enum Careers {
   Other = 'Other',
 }
 
+export enum BootcampFields {
+  Name = 'name',
+  Description = 'description',
+  Courses = 'courses',
+}
+
 export interface ILocation {
   type: 'Point';
   coordinates: number[];
@@ -34,7 +40,7 @@ export class Bootcamp extends Document {
     trim: true,
     maxlength: [50, 'Name can not be more than 50 characters'],
   })
-  name: string;
+  [BootcampFields.Name]: string;
 
   @Prop()
   slug: string;
@@ -44,7 +50,7 @@ export class Bootcamp extends Document {
     required: [true, 'Please add a description'],
     maxlength: [500, 'Description can not be more than 500 characters'],
   })
-  description: string;
+  [BootcampFields.Description]: string;
 
   @Prop({
     type: String,

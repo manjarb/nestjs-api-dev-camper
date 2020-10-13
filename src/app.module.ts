@@ -16,14 +16,14 @@ const mongoUrl =
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    BootcampsModule,
-    CoursesModule,
     MongooseModule.forRoot(`${mongoUrl}/dev-camper`, {
       useNewUrlParser: true,
       useFindAndModify: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
     }),
+    BootcampsModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AdvancedQueryService, AppService],
