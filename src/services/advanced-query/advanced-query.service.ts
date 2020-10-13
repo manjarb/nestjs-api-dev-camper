@@ -32,12 +32,17 @@ export interface IAdvancedData<T> {
   data: T[];
 }
 
+export interface IPopulatePath {
+  path: string;
+  select: string;
+}
+
 @Injectable()
 export class AdvancedQueryService {
   async getAdvancedQuery<T extends Document>(
     advancedRequestQuery: BootcampAdvancedRequestQueryDto,
     model: Model<T>,
-    populate?: string,
+    populate?: IPopulatePath | string,
   ): Promise<IAdvancedData<T>> {
     let query: DocumentQuery<T[], T>;
 

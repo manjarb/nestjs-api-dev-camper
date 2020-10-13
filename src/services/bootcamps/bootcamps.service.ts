@@ -4,9 +4,11 @@ import { Model } from 'mongoose';
 
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
-import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
 import { BootcampAdvancedRequestQueryDto } from '@dto/advanced-query.dto';
+
+import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
+import { BootcampFields } from '@entities/bootcamp/bootcamp.entity';
 
 import {
   AdvancedQueryService,
@@ -28,6 +30,7 @@ export class BootcampsService {
     return this.advancedQueryService.getAdvancedQuery(
       paginationQuery,
       this.bootcampModel,
+      BootcampFields.Courses,
     );
   }
 

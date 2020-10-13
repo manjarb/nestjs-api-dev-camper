@@ -25,7 +25,10 @@ import { CoursesService } from '@services/courses/courses.service';
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
-import { BootcampAdvancedRequestQueryDto } from '@dto/advanced-query.dto';
+import {
+  BootcampAdvancedRequestQueryDto,
+  CourseAdvancedRequestQueryDto,
+} from '@dto/advanced-query.dto';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
@@ -55,8 +58,10 @@ export class BootcampsController {
   findCourses(
     @Param('id')
     id: string,
+    @Query() paginationQuery: CourseAdvancedRequestQueryDto,
   ): Promise<IAdvancedData<Course>> {
     return this.coursesService.findAll({
+      ...paginationQuery,
       bootcamp: id,
     });
   }
