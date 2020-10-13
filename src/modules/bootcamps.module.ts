@@ -11,6 +11,5 @@ import { MongoProviderModule } from './mongo-provider.module';
   imports: [MongoProviderModule, ConfigModule],
   controllers: [BootcampsController],
   providers: [BootcampsService, AdvancedQueryService, GeocoderService],
-  exports: [MongoProviderModule],
 })
 export class BootcampsModule {}

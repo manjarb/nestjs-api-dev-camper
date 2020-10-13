@@ -6,13 +6,14 @@ import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
+import { BootcampAdvancedRequestQueryDto } from '@dto/advanced-query.dto';
+
 import {
   AdvancedQueryService,
   IAdvancedData,
 } from '@services/advanced-query/advanced-query.service';
 
 import { GeocoderService } from '@utils/geocoder.util';
-import { AdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 
 @Injectable()
 export class BootcampsService {
@@ -22,7 +23,7 @@ export class BootcampsService {
   ) {}
 
   findAll(
-    paginationQuery: AdvancedRequestQueryDto,
+    paginationQuery: BootcampAdvancedRequestQueryDto,
   ): Promise<IAdvancedData<Bootcamp>> {
     return this.advancedQueryService.getAdvancedQuery(
       paginationQuery,

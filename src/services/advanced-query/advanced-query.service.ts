@@ -1,6 +1,7 @@
-import { AdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 import { Injectable } from '@nestjs/common';
 import { Model, Document, DocumentQuery } from 'mongoose';
+
+import { BootcampAdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 
 enum Fields {
   Select = 'select',
@@ -34,7 +35,7 @@ export interface IAdvancedData<T> {
 @Injectable()
 export class AdvancedQueryService {
   async getAdvancedQuery<T extends Document>(
-    advancedRequestQuery: AdvancedRequestQueryDto,
+    advancedRequestQuery: BootcampAdvancedRequestQueryDto,
     model: Model<T>,
     populate?: string,
   ): Promise<IAdvancedData<T>> {
