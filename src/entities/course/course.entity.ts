@@ -2,7 +2,7 @@ import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as mongooseSchema } from 'mongoose';
 
-enum MinimumSkill {
+export enum MinimumSkill {
   Beginner = 'beginner',
   Intermediate = 'intermediate',
   Advanced = 'advanced',
@@ -50,7 +50,7 @@ export class Course extends Document {
     type: Boolean,
     default: false,
   })
-  scholarshipAvailable: string;
+  scholarhipsAvailable: boolean;
 
   @Prop({
     type: Date,
@@ -60,7 +60,7 @@ export class Course extends Document {
 
   @Prop({
     type: mongooseSchema.Types.ObjectId,
-    ref: Bootcamp.name,
+    ref: 'Bootcamp',
     required: true,
   })
   bootcamp: string;
