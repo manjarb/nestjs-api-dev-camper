@@ -1,3 +1,4 @@
+import { MongoProviderModule } from './../../modules/mongo-provider.module';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -7,6 +8,7 @@ import { SeederService } from './seeder.service';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    MongoProviderModule,
     MongooseModule.forRoot(`mongodb://localhost:27017/dev-camper`, {
       useNewUrlParser: true,
       useFindAndModify: true,

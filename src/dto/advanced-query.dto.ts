@@ -9,7 +9,7 @@ export interface IMongoOperator {
   in?: string;
 }
 
-export class AdvancedRequestQueryDto extends PaginationQueryDto {
+export class BootcampAdvancedRequestQueryDto extends PaginationQueryDto {
   @IsOptional()
   averageCost?: IMongoOperator;
 
@@ -23,3 +23,5 @@ export class AdvancedRequestQueryDto extends PaginationQueryDto {
     };
   };
 }
+
+export class CourseAdvancedRequestQueryDto extends PaginationQueryDto {}

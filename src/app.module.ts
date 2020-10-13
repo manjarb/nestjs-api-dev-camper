@@ -1,3 +1,4 @@
+import { CoursesModule } from './modules/courses.module';
 import { AdvancedQueryService } from './services/advanced-query/advanced-query.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -16,6 +17,7 @@ const mongoUrl =
   imports: [
     ConfigModule.forRoot(),
     BootcampsModule,
+    CoursesModule,
     MongooseModule.forRoot(`${mongoUrl}/dev-camper`, {
       useNewUrlParser: true,
       useFindAndModify: true,
