@@ -1,5 +1,6 @@
+import { Course } from '@entities/course/course.entity';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as mongooseSchema } from 'mongoose';
 import slugify from 'slugify';
 
 import { GeocoderService } from '@utils/geocoder.util';
@@ -154,6 +155,16 @@ export class Bootcamp extends Document {
     default: Date.now,
   })
   createdAt: Date;
+
+  // Reverse populate with virtuals
+  static bindVirtualField(schema: mongooseSchema<Bootcamp>): void {
+    schema.virtual(BootcampFields.Courses, {
+      ref: Course.name,
+      localField: '_id',
+      foreignField: Bootcamp.name.toLowerCase(),
+      justOne: false,
+    });
+  }
 }
 
 export const BootcampSchema = SchemaFactory.createForClass(Bootcamp);
@@ -179,5 +190,11 @@ BootcampSchema.pre<Bootcamp>('save', async function(next) {
 
   // Do not save address in DB
   this.address = undefined;
+  next();
+});
+
+BootcampSchema.pre<Bootcamp>('remove', async function(next) {
+  console.log(`Courses being removed from bootcamp ${this._id}`);
+  await this.model('Course').deleteMany({ bootcamp: this._id });
   next();
 });
