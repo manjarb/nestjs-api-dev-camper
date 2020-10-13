@@ -198,3 +198,8 @@ BootcampSchema.pre<Bootcamp>('remove', async function(next) {
   await this.model('Course').deleteMany({ bootcamp: this._id });
   next();
 });
+
+export const BootcampPopulate = {
+  path: Bootcamp.name.toLowerCase(),
+  select: `${BootcampFields.Name} ${BootcampFields.Description}`,
+};

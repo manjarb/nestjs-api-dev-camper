@@ -25,6 +25,7 @@ import { CoursesService } from '@services/courses/courses.service';
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
 import { UpdateBootcampDto } from '@dto/bootcamp/update-bootcamp.dto';
+import { CreateCourseDto } from '@dto/course/create-course.dto';
 import {
   BootcampAdvancedRequestQueryDto,
   CourseAdvancedRequestQueryDto,
@@ -84,6 +85,15 @@ export class BootcampsController {
   @Post()
   create(@Body() body: CreateBootcampDto): Promise<Bootcamp> {
     return this.bootcampsService.create(body);
+  }
+
+  @Post(':id/courses')
+  createCourse(
+    @Param('id')
+    id: string,
+    @Body() body: CreateCourseDto,
+  ): Promise<Course> {
+    return this.coursesService.create(id, body);
   }
 
   @Patch(':id')
