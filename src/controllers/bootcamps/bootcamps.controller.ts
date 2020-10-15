@@ -7,9 +7,12 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFiles,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { Course } from '@entities/course/course.entity';
 import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
@@ -30,6 +33,8 @@ import {
   BootcampAdvancedRequestQueryDto,
   CourseAdvancedRequestQueryDto,
 } from '@dto/advanced-query.dto';
+
+import { ApiFile } from '@decorators/api-file.decorator';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
@@ -107,5 +112,17 @@ export class BootcampsController {
   @Delete(':id')
   remove(@Param('id') id: string): Promise<Bootcamp> {
     return this.bootcampsService.remove(id);
+  }
+
+  @Post(':id/photo')
+  @ApiConsumes('multipart/form-data')
+  @ApiFile('files')
+  @UseInterceptors(FilesInterceptor('files'))
+  photoUpload(
+    @Param('id') id: string,
+    @UploadedFiles() files: Express.Multer.File[],
+  ): void {
+    console.log(files, ' :files');
+    return;
   }
 }
