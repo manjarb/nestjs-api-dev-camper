@@ -11,7 +11,7 @@ import { SeederService } from './seeder.service';
     MongoProviderModule,
     MongooseModule.forRoot(`mongodb://localhost:27017/dev-camper`, {
       useNewUrlParser: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
       useCreateIndex: true,
       useUnifiedTopology: true,
     }),
