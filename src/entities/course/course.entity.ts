@@ -63,7 +63,7 @@ export class Course extends Document {
     ref: 'Bootcamp',
     required: true,
   })
-  bootcamp: string;
+  bootcamp: Bootcamp;
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);
@@ -100,5 +100,5 @@ CourseSchema.post('save', function() {
 
 // Call getAverageCost before remove
 CourseSchema.pre('remove', function(this: Course) {
-  (this.constructor as any).getAverageCost(this.bootcamp);
+  (this.constructor as any).getAverageCost(this.bootcamp._id);
 });
