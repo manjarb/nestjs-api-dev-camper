@@ -9,8 +9,8 @@ export class CreateCourseDto {
   @IsString()
   readonly description: string;
 
-  @IsString()
-  readonly weeks: string;
+  @IsNumber()
+  readonly weeks: number;
 
   @IsNumber()
   readonly tuition: number;

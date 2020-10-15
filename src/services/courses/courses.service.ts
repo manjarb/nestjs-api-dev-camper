@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { CourseAdvancedRequestQueryDto } from '@dto/advanced-query.dto';
 import { CreateCourseDto } from '@dto/course/create-course.dto';
+import { UpdateCourseDto } from '@dto/course/update-course.dto';
 
 import {
   AdvancedQueryService,
@@ -54,5 +55,23 @@ export class CoursesService {
       bootcamp: bootcamp._id,
     });
     return (await course.save()).populate(BootcampPopulate).execPopulate();
+  }
+
+  async update(id: string, updateCourseDto: UpdateCourseDto): Promise<Course> {
+    const existingCourse = await this.courseModel.findByIdAndUpdate(
+      id,
+      updateCourseDto,
+      { new: true },
+    );
+
+    if (!existingCourse) {
+      throw new NotFoundException(`Course #${id} not found`);
+    }
+    return existingCourse;
+  }
+
+  async remove(id: string): Promise<Course> {
+    const course = await this.findOne(id);
+    return course.remove();
   }
 }

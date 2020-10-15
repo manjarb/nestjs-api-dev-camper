@@ -18,7 +18,7 @@ const mongoUrl =
     ConfigModule.forRoot(),
     MongooseModule.forRoot(`${mongoUrl}/dev-camper`, {
       useNewUrlParser: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
       useCreateIndex: true,
       useUnifiedTopology: true,
     }),
