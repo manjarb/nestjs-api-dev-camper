@@ -24,10 +24,10 @@ export class Course extends Document {
   description: string;
 
   @Prop({
-    type: String,
+    type: Number,
     required: [true, 'Please add number of weeks'],
   })
-  weeks: string;
+  weeks: number;
 
   @Prop({
     type: Number,
@@ -67,3 +67,38 @@ export class Course extends Document {
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);
+
+// Static method to get avg of course tuitions
+CourseSchema.statics.getAverageCost = async function(
+  bootcampId: string,
+): Promise<void> {
+  const obj = await this.aggregate([
+    {
+      $match: { bootcamp: bootcampId },
+    },
+    {
+      $group: {
+        _id: '$bootcamp',
+        averageCost: { $avg: '$tuition' },
+      },
+    },
+  ]);
+
+  try {
+    await this.model(Bootcamp.name).findByIdAndUpdate(bootcampId, {
+      averageCost: Math.ceil(obj[0].averageCost / 10) * 10,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Call getAverageCost after save
+CourseSchema.post('save', function() {
+  this.constructor.getAverageCost(this.bootcamp);
+});
+
+// Call getAverageCost before remove
+CourseSchema.pre('remove', function(this: Course) {
+  (this.constructor as any).getAverageCost(this.bootcamp);
+});

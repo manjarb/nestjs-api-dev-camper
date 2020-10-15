@@ -1,9 +1,20 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Param, Query, UseFilters } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Query,
+  UseFilters,
+} from '@nestjs/common';
 
 import { CoursesService } from '@services/courses/courses.service';
 import { IAdvancedData } from '@services/advanced-query/advanced-query.service';
+
 import { CourseAdvancedRequestQueryDto } from '@dto/advanced-query.dto';
+import { UpdateCourseDto } from '@dto/course/update-course.dto';
 
 import { Course } from '@entities/course/course.entity';
 import { BootcampPopulate } from '@entities/bootcamp/bootcamp.entity';
@@ -31,5 +42,18 @@ export class CoursesController {
     id: string,
   ): Promise<Course> {
     return this.coursesService.findOne(id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() body: UpdateCourseDto,
+  ): Promise<Course> {
+    return this.coursesService.update(id, body);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<Course> {
+    return this.coursesService.remove(id);
   }
 }
