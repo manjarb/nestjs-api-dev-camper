@@ -19,7 +19,12 @@ async function bootstrap(): Promise<void> {
             logger.error('Seeding failed!');
             throw error;
           })
-          .finally(() => appContext.close());
+          .finally(() => {
+            // Wait for Post save to be executed
+            setTimeout(() => {
+              appContext.close();
+            }, 2000);
+          });
       } else if (process.argv[2] === '-d') {
         seeder
           .delete()
