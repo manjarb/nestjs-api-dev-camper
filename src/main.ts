@@ -1,12 +1,21 @@
-import { HttpExceptionFilter } from './filters/http-exception/http-exception.filter';
+import { config } from 'dotenv';
+// Load env vars
+config({ path: '.env' });
+
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { join } from 'path';
+
+import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './filters/http-exception/http-exception.filter';
 import { FormatResponseInterceptor } from './interceptors/format-response/format-response.interceptor';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   // Enforcing validation rules for all incoming client payloads
   app.useGlobalPipes(

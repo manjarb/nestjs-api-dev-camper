@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
 import { BootcampsService } from '@services/bootcamps/bootcamps.service';
 import { BootcampsController } from '@controllers/bootcamps/bootcamps.controller';
@@ -9,7 +8,7 @@ import { GeocoderService } from '@utils/geocoder.util';
 import { MongoProviderModule } from './mongo-provider.module';
 
 @Module({
-  imports: [MongoProviderModule, ConfigModule],
+  imports: [MongoProviderModule],
   controllers: [BootcampsController],
   providers: [
     BootcampsService,

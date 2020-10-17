@@ -7,12 +7,13 @@ import {
   Patch,
   Post,
   Query,
-  UploadedFiles,
+  UploadedFile,
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 import { Course } from '@entities/course/course.entity';
 import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
@@ -116,13 +117,19 @@ export class BootcampsController {
 
   @Post(':id/photo')
   @ApiConsumes('multipart/form-data')
-  @ApiFile('files')
-  @UseInterceptors(FilesInterceptor('files'))
+  @ApiFile('file')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      // Storage to save a file to the disk
+      storage: diskStorage({
+        destination: process.env.FILE_UPLOAD_PATH,
+      }),
+    }),
+  )
   photoUpload(
     @Param('id') id: string,
-    @UploadedFiles() files: Express.Multer.File[],
-  ): void {
-    console.log(files, ' :files');
-    return;
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<string | void> {
+    return this.bootcampsService.photoUpload(id, file);
   }
 }
