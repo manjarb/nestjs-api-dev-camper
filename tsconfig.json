@@ -20,5 +20,11 @@
       "@utils/*": ["./src/utils/*"],
       "@decorators/*": ["./src/decorators/*"]
     }
-  }
+  },
+  "exclude": [
+    "public"
+  ],
+  "include": [
+    "src"
+  ]
 }

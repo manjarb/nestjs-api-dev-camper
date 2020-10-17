@@ -1,6 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import * as path from 'path';
+import * as fs from 'fs';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { promisify } from 'util';
+const renameAsync = promisify(fs.rename);
 
 import { CreateBootcampDto } from '@dto/bootcamp/create-bootcamp.dto';
 import { PaginationQueryDto } from '@dto/pagination-query.dto';
@@ -90,5 +99,49 @@ export class BootcampsService {
   async remove(id: string): Promise<Bootcamp> {
     const coffee = await this.findOne(id);
     return coffee.remove();
+  }
+
+  async photoUpload(
+    id: string,
+    file: Express.Multer.File,
+  ): Promise<string | void> {
+    const bootcamp = await this.findOne(id);
+
+    // Make sure the image is a photo
+    if (!file.mimetype.startsWith('image')) {
+      throw new HttpException(
+        'Please upload an image file',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // Check filesize
+    if (file.size > parseInt(process.env.MAX_FILE_UPLOAD)) {
+      throw new HttpException(
+        `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const newFileName = `photo-${bootcamp._id}${
+      path.parse(file.originalname).ext
+    }`;
+
+    try {
+      await renameAsync(
+        file.path,
+        `${process.env.FILE_UPLOAD_PATH}/${newFileName}`,
+      );
+      await this.bootcampModel.findByIdAndUpdate(bootcamp.id, {
+        photo: newFileName,
+      });
+
+      return newFileName;
+    } catch (error) {
+      throw new HttpException(
+        `Problem with file upload`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

@@ -194,7 +194,6 @@ BootcampSchema.pre<Bootcamp>('save', async function(next) {
 });
 
 BootcampSchema.pre<Bootcamp>('remove', async function(next) {
-  console.log(`Courses being removed from bootcamp ${this._id}`);
   await this.model('Course').deleteMany({ bootcamp: this._id });
   next();
 });
