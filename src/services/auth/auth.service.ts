@@ -16,7 +16,6 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<User | null> {
-    console.log('validateUser');
     const user = await this.usersService.findByEmail(email);
 
     // Check if password matches
@@ -34,9 +33,16 @@ export class AuthService {
   }
 
   async login(user: User): Promise<IAccessToken> {
-    const payload = { email: user.email, id: user._id };
+    const { email, _id } = user;
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.getUserToken(email, _id),
     };
+  }
+
+  getUserToken(email: string, id: string): string {
+    return this.jwtService.sign({
+      email,
+      id,
+    });
   }
 }

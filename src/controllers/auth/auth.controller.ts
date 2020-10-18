@@ -32,9 +32,12 @@ export class AuthController {
   ) {}
 
   @Post('/register')
-  async register(@Body() body: RegisterUserDto): Promise<boolean> {
+  async register(
+    @Body() body: RegisterUserDto,
+  ): Promise<{ access_token: string }> {
     const user = await this.usersService.create(body);
-    return true;
+    const token = this.authService.getUserToken(user.email, user._id);
+    return { access_token: token };
   }
 
   @UseGuards(LocalAuthGuard)
@@ -47,10 +50,9 @@ export class AuthController {
   }
 
   // Sample JWT
-  // @UseGuards(JwtAuthGuard)
-  // @Get('profile')
-  // getProfile(@Request() req: any): any {
-  //   console.log(req);
-  //   return req.user;
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req: any): any {
+    return req.user;
+  }
 }

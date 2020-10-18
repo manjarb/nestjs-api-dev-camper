@@ -13,11 +13,11 @@ import { MongoProviderModule } from './mongo-provider.module';
 @Module({
   imports: [
     MongoProviderModule,
-    PassportModule,
     UsersModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: process.env.JWT_EXPIRE },
     }),
   ],
   controllers: [AuthController],
