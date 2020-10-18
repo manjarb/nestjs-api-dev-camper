@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { Bootcamp, BootcampSchema } from '@entities/bootcamp/bootcamp.entity';
 import { Course, CourseSchema } from '@entities/course/course.entity';
+import { User, UserSchema } from '@entities/user/user.entity';
 
 @Module({
   imports: [
@@ -14,6 +15,10 @@ import { Course, CourseSchema } from '@entities/course/course.entity';
       {
         name: Course.name,
         schema: CourseSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
       },
     ]),
     MongooseModule.forFeatureAsync([

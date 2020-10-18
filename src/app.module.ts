@@ -1,11 +1,13 @@
-import { CoursesModule } from './modules/courses.module';
-import { AdvancedQueryService } from './services/advanced-query/advanced-query.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { AuthModule } from './modules/auth.module';
+import { CoursesModule } from './modules/courses.module';
+import { BootcampsModule } from './modules/bootcamps.module';
+
+import { AdvancedQueryService } from './services/advanced-query/advanced-query.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BootcampsModule } from './modules/bootcamps.module';
 
 const mongoUrl =
   process.env.NODE_ENV === 'production'
@@ -22,6 +24,7 @@ const mongoUrl =
     }),
     BootcampsModule,
     CoursesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AdvancedQueryService, AppService],
