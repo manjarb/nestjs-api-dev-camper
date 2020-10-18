@@ -1,3 +1,5 @@
+import { UsersModule } from './modules/users.module';
+import { AuthModule } from './modules/auth.module';
 import { CoursesModule } from './modules/courses.module';
 import { AdvancedQueryService } from './services/advanced-query/advanced-query.service';
 import { Module } from '@nestjs/common';
@@ -22,6 +24,8 @@ const mongoUrl =
     }),
     BootcampsModule,
     CoursesModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AdvancedQueryService, AppService],
