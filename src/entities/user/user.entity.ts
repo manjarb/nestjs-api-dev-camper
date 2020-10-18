@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as mongooseSchema } from 'mongoose';
+import { compare, genSalt, hash } from 'bcryptjs';
 
 export enum UserFields {
   Name = 'name',
@@ -43,7 +44,7 @@ export class User extends Document {
     minlength: 6,
     select: false,
   })
-  [UserFields.Password]: string;
+  [UserFields.Password]?: string;
 
   @Prop({
     type: String,
@@ -63,3 +64,12 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.pre<User>('save', async function(next) {
+  if (!this.isModified(UserFields.Password)) {
+    next();
+  }
+
+  const salt = await genSalt(10);
+  this.password = await hash(this.password, salt);
+});

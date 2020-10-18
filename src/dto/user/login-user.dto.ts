@@ -1,10 +1,9 @@
-import { UserFields } from '@entities/user/user.entity';
 import { IsString } from 'class-validator';
 
 export class LoginUserDto {
   @IsString()
-  readonly [UserFields.Email]: string;
+  readonly username: string;
 
   @IsString()
-  readonly [UserFields.Password]: string;
+  readonly password: string;
 }

@@ -1,3 +1,4 @@
+import { UsersModule } from './modules/users.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -25,6 +26,7 @@ const mongoUrl =
     BootcampsModule,
     CoursesModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AdvancedQueryService, AppService],
