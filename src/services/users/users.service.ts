@@ -22,6 +22,15 @@ export class UsersService {
     return user;
   }
 
+  async findById(id: string): Promise<User | null> {
+    const user = await this.userModel.findById(id);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    return user;
+  }
+
   create(createUser: RegisterUserDto): Promise<User> {
     const user = new this.userModel(createUser);
     return user.save();

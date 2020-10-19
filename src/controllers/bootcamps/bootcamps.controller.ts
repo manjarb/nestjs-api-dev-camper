@@ -7,16 +7,19 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UploadedFile,
   UseFilters,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 import { Course } from '@entities/course/course.entity';
 import { Bootcamp } from '@entities/bootcamp/bootcamp.entity';
+import { UserRoles } from '@entities/user/user.entity';
 
 import { ValidationErrorFilter } from '@filters/validation-error/validation-error.filter';
 import { MongoErrorFilter } from '@filters/mongo-error/mongo-error.filter';
@@ -36,6 +39,10 @@ import {
 } from '@dto/advanced-query.dto';
 
 import { ApiFile } from '@decorators/api-file.decorator';
+import { Roles } from '@decorators/roles.decorator';
+
+import { JwtAuthGuard } from '@guard/jwt-auth.guard';
+import { RoleAuthGuard } from '@guard/role-auth.guard';
 
 @ApiTags('bootcamps')
 @Controller('api/v1/bootcamps')
@@ -89,11 +96,16 @@ export class BootcampsController {
   }
 
   @Post()
+  @ApiBearerAuth()
+  @Roles(UserRoles.Admin, UserRoles.Publisher)
+  @UseGuards(JwtAuthGuard, RoleAuthGuard)
   create(@Body() body: CreateBootcampDto): Promise<Bootcamp> {
     return this.bootcampsService.create(body);
   }
 
   @Post(':id/courses')
+  @Roles(UserRoles.Admin, UserRoles.Publisher)
+  @UseGuards(JwtAuthGuard, RoleAuthGuard)
   createCourse(
     @Param('id')
     id: string,
@@ -103,6 +115,8 @@ export class BootcampsController {
   }
 
   @Patch(':id')
+  @Roles(UserRoles.Admin, UserRoles.Publisher)
+  @UseGuards(JwtAuthGuard, RoleAuthGuard)
   update(
     @Param('id') id: string,
     @Body() body: UpdateBootcampDto,
@@ -111,6 +125,8 @@ export class BootcampsController {
   }
 
   @Delete(':id')
+  @Roles(UserRoles.Admin, UserRoles.Publisher)
+  @UseGuards(JwtAuthGuard, RoleAuthGuard)
   remove(@Param('id') id: string): Promise<Bootcamp> {
     return this.bootcampsService.remove(id);
   }
@@ -126,6 +142,8 @@ export class BootcampsController {
       }),
     }),
   )
+  @Roles(UserRoles.Admin, UserRoles.Publisher)
+  @UseGuards(JwtAuthGuard, RoleAuthGuard)
   photoUpload(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,

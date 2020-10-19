@@ -41,6 +41,7 @@ async function bootstrap(): Promise<void> {
 
   // Setting up Swagger document
   const options = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('NestJs DevCamper')
     .setDescription('Sample bootcamp app')
     .setVersion('1.0')

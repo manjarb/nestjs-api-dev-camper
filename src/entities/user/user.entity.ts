@@ -12,6 +12,12 @@ export enum UserFields {
   CreatedAt = 'createdAt',
 }
 
+export enum UserRoles {
+  Admin = 'admin',
+  User = 'user',
+  Publisher = 'publisher',
+}
+
 @Schema()
 export class User extends Document {
   @Prop({

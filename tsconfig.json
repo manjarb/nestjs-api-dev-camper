@@ -18,7 +18,8 @@
       "@services/*": ["./src/services/*"],
       "@dto/*": ["./src/dto/*"],
       "@utils/*": ["./src/utils/*"],
-      "@decorators/*": ["./src/decorators/*"]
+      "@decorators/*": ["./src/decorators/*"],
+      "@guard/*": ["./src/guard/*"]
     }
   },
   "exclude": [

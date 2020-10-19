@@ -5,7 +5,6 @@ import { jwtConstants } from './../constants/auth.constant';
 
 interface IJWTValidate {
   _id: string;
-  email: string;
 }
 
 @Injectable()
@@ -22,6 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     id: string;
     email: string;
   }): Promise<IJWTValidate> {
-    return { _id: payload.id, email: payload.email };
+    return { _id: payload.id };
   }
 }

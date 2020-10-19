@@ -33,15 +33,14 @@ export class AuthService {
   }
 
   async login(user: User): Promise<IAccessToken> {
-    const { email, _id } = user;
+    const { _id } = user;
     return {
-      access_token: this.getUserToken(email, _id),
+      access_token: this.getUserToken(_id),
     };
   }
 
-  getUserToken(email: string, id: string): string {
+  getUserToken(id: string): string {
     return this.jwtService.sign({
-      email,
       id,
     });
   }

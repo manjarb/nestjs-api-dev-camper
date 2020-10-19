@@ -36,7 +36,7 @@ export class AuthController {
     @Body() body: RegisterUserDto,
   ): Promise<{ access_token: string }> {
     const user = await this.usersService.create(body);
-    const token = this.authService.getUserToken(user.email, user._id);
+    const token = this.authService.getUserToken(user._id);
     return { access_token: token };
   }
 
